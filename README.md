@@ -1,49 +1,44 @@
-# 🎬 BERT IMDB Sentiment — Streamlit Demo
+import streamlit as st
 
-## Project Structure
-```
-bert_demo/
-├── app.py                  ← Main entry point
-├── requirements.txt
-└── pages/
-    ├── home.py             ← Overview & pipeline
-    ├── inference.py        ← Live sentiment prediction
-    ├── hyperparam.py       ← Grid search results
-    ├── regularization.py   ← Weight decay & dropout
-    └── error_analysis.py   ← Confusion matrix, confidence, length, hard examples
-```
+st.set_page_config(
+    page_title="BERT Sentiment Analysis — IMDB",
+    page_icon="🎬",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
-## Setup & Run
+with st.sidebar:
+    st.title("🎬 BERT IMDB Demo")
+    st.caption("Deep Learning Lab — Error Analysis Project")
+    st.divider()
 
-```bash
-# 1. Create virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+    page = st.radio(
+        "Navigate",
+        options=[
+            "🏠 Home",
+            "🔮 Inference",
+            "⚙️ Hyperparameter Search",
+            "🛡️ Regularization",
+            "🔍 Error Analysis",
+        ],
+        label_visibility="collapsed",
+    )
 
-# 2. Install dependencies
-pip install -r requirements.txt
+    st.divider()
+    st.caption("Model: bert-base-uncased  \nDataset: IMDB (50k reviews)  \nTask: Binary Sentiment")
 
-# 3. Run the app
-streamlit run app.py
-```
-
-The app opens at **http://localhost:8501**
-
-## Point to Your Own Model
-
-On the **Inference** page, expand ⚙️ Model Settings and paste your saved model path:
-```
-/content/drive/MyDrive/Colab Notebooks/bert-imdb-final
-```
-
-By default it uses `distilbert-base-uncased-finetuned-sst-2-english` from HuggingFace Hub as a demo.
-
-## Pages
-
-| Page | What it shows |
-|---|---|
-| 🏠 Home | Project pipeline summary |
-| 🔮 Inference | Live sentiment prediction + temperature scaling |
-| ⚙️ Hyperparameter Search | Heatmap + bar chart of grid search results |
-| 🛡️ Regularization | Loss curves, weight decay, dropout comparison |
-| 🔍 Error Analysis | Confusion matrix, confidence, length analysis, hard examples |
+if page == "🏠 Home":
+    import pages.home as home
+    home.show()
+elif page == "🔮 Inference":
+    import pages.inference as inference
+    inference.show()
+elif page == "⚙️ Hyperparameter Search":
+    import pages.hyperparam as hyperparam
+    hyperparam.show()
+elif page == "🛡️ Regularization":
+    import pages.regularization as regularization
+    regularization.show()
+elif page == "🔍 Error Analysis":
+    import pages.error_analysis as error_analysis
+    error_analysis.show()
