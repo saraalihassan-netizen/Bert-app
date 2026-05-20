@@ -51,8 +51,7 @@ def show():
             st.stop()
 
         with st.spinner("Analysing…"):
-            results = classifier(user_text, return_all_scores=True)[0]
-
+            results = classifier(user_text, top_k=None)
         import numpy as np
 
         labels = [r["label"] for r in results]
